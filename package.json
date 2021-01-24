@@ -4,15 +4,9 @@
   "description": "",
   "main": "www.js",
   "scripts": {
-    "start": "node main.js",
-    "dev": "nodemon main.ts",
-    "build": "tsc -p .",
-    "serve": "nodemon www",
-    "servets": "nodemon main.ts",
-    "runts": "tsc",
-    "tsnode": "ts-node",
-    "node": "node",
-    "golint": "eslint"
+		"start": "node dist/main.js",
+		"build": "tsc",
+		"postinstall": "npm run build"
   },
   "keywords": [],
   "author": "",

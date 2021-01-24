@@ -1,5 +1,6 @@
 import { Router } from 'express';
-import * as storageFuncs from '../storage/storage-funcs';
+import * as storageFuncs from '../storage/mongo';
+
 const router = Router();
 /*
 // const arrOfItems: { id: number, title: string }[] = [];

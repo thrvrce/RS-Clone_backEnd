@@ -1,8 +1,5 @@
-type ItemType = {
-id: string;
-title: string;
-complete: boolean;
-}
+import { ItemType } from '../types/items';
+
 let arrOfItems: ItemType[] = [];
 
 const readItemList = async (): Promise<ItemType[]> => arrOfItems;

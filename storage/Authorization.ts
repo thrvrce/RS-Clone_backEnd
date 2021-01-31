@@ -33,7 +33,10 @@ function createSession(login: string) {
 
 const register = async (UserCredentials: UserRegisterType) => {
   const collection = await usersCollection;
-  const { isUsedLogin, isUsedEmail } = await checkCredeindials(collection, UserCredentials.login, UserCredentials.email);
+  const {
+    isUsedLogin,
+    isUsedEmail,
+  } = await checkCredeindials(collection, UserCredentials.login, UserCredentials.email);
 
   const result = {
     status: false,
@@ -82,7 +85,7 @@ async function checkSession(token: string) {
   return result;
 }
 
-async function login(UserCredentials: UserLoginType) {
+async function userLogin(UserCredentials: UserLoginType) {
   const collection = await usersCollection;
   const User = await collection.findOne({
     login: UserCredentials.login,
@@ -118,6 +121,6 @@ async function logOut(user: string) {
 export {
   register,
   checkSession,
-  login,
+  userLogin,
   logOut,
-}
+};

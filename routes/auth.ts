@@ -1,6 +1,9 @@
 import { Router } from 'express';
-import {register, checkSession, login, logOut } from '../storage/Authorization';
-//import path from 'path'
+import {
+  register, checkSession, userLogin, logOut,
+} from '../storage/Authorization';
+
+// import path from 'path'
 // const __dirname = path.resolve();
 
 const router = Router();
@@ -8,7 +11,7 @@ const router = Router();
 // router.get('/', async (req, res, next) => {
 //   console.log(`req: ${req}`);
 //   res.json(req.body);
-  // res.sendFile(path.resolve(__dirname, '../view', 'login.html'));
+// res.sendFile(path.resolve(__dirname, '../view', 'login.html'));
 // });
 
 router.post('/register', async (req, res, next) => {
@@ -22,12 +25,11 @@ router.put('/checkSession', async (req, res, next) => {
 });
 
 router.put('/authorize', async (req, res, next) => {
-  const { status, token } = await login(req.body);
+  const { status, token } = await userLogin(req.body);
   res.json({ status, token });
 });
 
 router.delete('/logout', async (req, res, next) => {
-  console.log(req.body);
   const status = await logOut(req.body.login);
   res.json({ status });
 });

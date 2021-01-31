@@ -2,9 +2,9 @@
   "name": "rs-clone-backend",
   "version": "0.0.0",
   "description": "",
-  "main": "www.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node dist/main.js",
+    "start": "node dist/app.js",
     "build": "tsc",
     "postinstall": "npm run build",
     "eslint": "eslint"

@@ -4,6 +4,7 @@ const URL: string = 'mongodb+srv://thrvrce:Pas$w0rD-RS-C10Ne@rs-clone-cluster.mr
 const DBNAME: string = 'RsClone';
 const USERS = 'Users';
 const SESSIONS = 'Sessions';
+const TOPICS = 'Topics';
 
 async function getMongoInstance() {
   const client = await MongoClient.connect(URL);
@@ -17,8 +18,10 @@ async function getCollection(collectionName: string) {
 
 const usersCollection = getCollection(USERS);
 const sessionsCollection = getCollection(SESSIONS);
+const topicsCollection = getCollection(TOPICS);
 
 export {
   usersCollection,
   sessionsCollection,
+  topicsCollection,
 }

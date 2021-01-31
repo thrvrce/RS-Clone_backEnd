@@ -1,7 +1,7 @@
 import md5 from 'md5';
 import { Collection } from 'mongodb';
 import { usersCollection, sessionsCollection } from './Collections';
-import { UserRegisterType } from '../types/Users';
+import { UserRegisterType, UserLoginType } from '../types/Users';
 
 const PASSWORD_SALT = 'saltySalt123';
 const TOKEN_SALT = 'saltySalt321__';
@@ -21,6 +21,14 @@ async function checkCredeindials(collection: Collection, login: string, email: s
   const isUsedEmail = await collection.countDocuments({ email }, { limit: 1 });
 
   return { isUsedLogin, isUsedEmail };
+}
+
+function createSession(login: string) {
+  return {
+    user: login,
+    token: createToken(login),
+    expiresAt: setSessionTime(),
+  };
 }
 
 const register = async (UserCredentials: UserRegisterType) => {
@@ -43,11 +51,7 @@ const register = async (UserCredentials: UserRegisterType) => {
 
     const session = await sessionsCollection;
 
-    const newSession = {
-      user: UserCredentials.login,
-      token: createToken(UserCredentials.login),
-      expiresAt: setSessionTime(),
-    };
+    const newSession = createSession(UserCredentials.login);
 
     await session.insertOne(newSession);
 
@@ -78,7 +82,42 @@ async function checkSession(token: string) {
   return result;
 }
 
+async function login(UserCredentials: UserLoginType) {
+  const collection = await usersCollection;
+  const User = await collection.findOne({
+    login: UserCredentials.login,
+    passwordHash: getPasswordHash(UserCredentials.password),
+  });
+
+  const result = {
+    status: false,
+    token: '',
+  };
+
+  if (User) {
+    const session = await sessionsCollection;
+    await session.deleteMany({ user: User.login });
+
+    const newSession = createSession(User.login);
+
+    const createdSession = await session.insertOne(newSession);
+
+    result.status = (User && createdSession);
+    result.token = newSession.token;
+  }
+
+  return result;
+}
+
+async function logOut(user: string) {
+  const session = await sessionsCollection;
+  await session.deleteMany({ user });
+  return true;
+}
+
 export {
   register,
   checkSession,
+  login,
+  logOut,
 }

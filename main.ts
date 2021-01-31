@@ -15,16 +15,16 @@ function normalizePort(val: any) {
   return false;
 }
 
-const PORT = normalizePort(process.env.PORT || '3002');
+const PORT = normalizePort(process.env.PORT || '3005');
 
 app.set('port', PORT);
 app.listen(PORT, () => {
   console.log(`gc ${PORT}`);
 });
 
-app.get('/features', (req, res) => {
-  console.log('features');
-  res.send('asdasd');
-});
+// app.get('/features', (req, res) => {
+//   console.log('features');
+//   res.send('asdasd');
+// });
 
 

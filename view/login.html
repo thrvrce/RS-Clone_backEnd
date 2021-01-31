@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>login</title>
+</head>
+<body>
+	<!-- <form action = 'http://localhost:3002/login/register/' method="GET">
+		<button type = "submit"> go </button>
+	</form> -->
+	<div style="display: flex; flex-direction: column;">
+		<form action="#">
+		<input type="text" id="login" name="login" placeholder="login" required>login
+		<input type="email" id="email" name="email" placeholder="email" required>email
+		<input type="password" id="password" name="password" placeholder="password" required>password
+		<button type = "button" id="button"> register </button>
+	</form>
+</div>
+	<script >
+		const login = document.getElementById('login');
+		const email = document.getElementById('email');
+		const button = document.getElementById('button');
+		const password = document.getElementById('password');
+		button.addEventListener('click', (event) => {
+			console.log(login.value);
+			console.log(email.value);
+			console.log(password.value);
+			fetch('http://localhost:3005/login/register', {
+				method: 'POST',
+				headers:{'Content-Type': 'application/json'},
+				body: JSON.stringify({  login: login.value,
+																 email: email.value,
+																 password: password.value })
+			}).then( (res) => { return res.json()} ).then((res) => console.log(res));
+		})
+	</script>
+</body>
+</html>

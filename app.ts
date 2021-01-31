@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
 import todoRouter from './routes/todos';
+import auth from './routes/auth'
 
 const app = express();
 
@@ -11,9 +12,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/todos', todoRouter);
-// app.use('/', (req, res, next) => {
-//   res.send('hello there');
-// });
+app.use('/login', auth);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

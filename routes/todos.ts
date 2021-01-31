@@ -2,24 +2,6 @@ import { Router } from 'express';
 import * as storageFuncs from '../storage/mongo';
 
 const router = Router();
-/*
-// const arrOfItems: { id: number, title: string }[] = [];
-// const arrOfItems: object[] = [];
-
-// interface IarrOfItems {
-//   id: number;
-//   title: string;
-//   obj:{
-//     title: string;
-//   };
-// }
-// const tstobj:{title: string} = { title: 'test' };
-// console.log(tstobj);
-// const arrOfItems: IarrOfItems[] = [];
-
-// arrOfItems.push({title: 'newtitle', id: 1, obj: tstobj });
-// console.log(arrOfItems);
-*/
 
 router.get('/', async (req, res, next) => {
   const list = await storageFuncs.listAll();

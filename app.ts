@@ -18,9 +18,11 @@ app.use('/topics', topics);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  res.json({
-    statuscode: 404,
-  });
+  res
+    .status(404)
+    .json({
+      statuscode: 404,
+    });
 });
 
 app.use((err:any, req:any, res:any, next:any) => {

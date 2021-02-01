@@ -33,8 +33,15 @@ async function getAllTopics() {
   return Topics;
 }
 
+async function deleteTopicByName(topicName: string) {
+  const collection = await topicsCollection;
+  const deleteInfo = await collection.deleteOne({ topicName });
+  return deleteInfo;
+}
+
 export {
   inserArrayOfTopics,
   findTopicByName,
   getAllTopics,
+  deleteTopicByName,
 };

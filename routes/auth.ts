@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import {
-  register, checkSession, userLogin, logOut,
+  register, checkSession, userLogin, logOut, updateUser,
 } from '../storage/Authorization';
 
 // import path from 'path'
@@ -32,6 +32,14 @@ router.put('/authorize', async (req, res, next) => {
 router.delete('/logout', async (req, res, next) => {
   const status = await logOut(req.body.login);
   res.json({ status });
+});
+
+router.put('/updateUser/', async (req, res, next) => {
+  console.log(req.body.field, req.body.updateValue, req.body.token);
+  const status = await updateUser(req.body.field, req.body.updateValue, req.body.token);
+  res
+    .status(status ? 200 : 501)
+    .json({ status });
 });
 // router.get('/:id', async (req, res, next) => {
 //   const item = await storageFuncs.getById(req.params.id);

@@ -118,9 +118,23 @@ async function logOut(user: string) {
   return true;
 }
 
+async function updateUser(field: string, updateValue: any, token: string) {
+  const { status, user } = await checkSession(token);
+
+  if (!status) {
+    return false;
+  }
+
+  const session = await usersCollection;
+  const res = await session.updateOne({ login: user }, { $set: { [field]: updateValue } });
+
+  return Boolean(res.modifiedCount);
+}
+
 export {
   register,
   checkSession,
   userLogin,
   logOut,
+  updateUser,
 };

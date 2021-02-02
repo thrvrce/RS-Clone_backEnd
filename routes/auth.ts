@@ -15,31 +15,45 @@ const router = Router();
 // });
 
 router.post('/register', async (req, res, next) => {
-  const { status, token } = await register(req.body);
-  res.json({ status, token });
+  const { status, token, user } = await register(req.body);
+  res
+    .status(status ? 200 : 403)
+    .json(status ? { status, token, user } : { message: 'Регистрация не осуществлена. Пользователь с такими данными уже существует' });
 });
 
 router.put('/checkSession', async (req, res, next) => {
   const { status, user } = await checkSession(req.body.token);
-  res.json({ status, user });
+  res
+    .status(status ? 200 : 401)
+    .json(status ? { status, user } : { message: 'Сессия не прошла валидацию попрчине отсутствия пользователя или истечения срока действия.' });
 });
 
 router.put('/authorize', async (req, res, next) => {
-  const { status, token } = await userLogin(req.body);
-  res.json({ status, token });
+  const { status, token, user } = await userLogin(req.body);
+  res
+    .status(status ? 200 : 401)
+    .json(status ? { status, token, user } : { message: 'Пользватель с введенными данными не найден' });
 });
 
 router.delete('/logout', async (req, res, next) => {
   const status = await logOut(req.body.login);
-  res.json({ status });
+  res
+    .status(200)
+    .json({ status });
 });
 
 router.put('/updateUser/', async (req, res, next) => {
-  console.log(req.body.field, req.body.updateValue, req.body.token);
-  const status = await updateUser(req.body.field, req.body.updateValue, req.body.token);
+  const {
+    status,
+    autorized,
+    updated,
+    user,
+  } = await updateUser(req.body.field, req.body.updateValue, req.body.token);
+
   res
-    .status(status ? 200 : 501)
-    .json({ status });
+    // eslint-disable-next-line no-nested-ternary
+    .status(status ? 200 : (autorized ? 500 : 401))
+    .json(status ? { status, autorized, updated, user } : { message: autorized ? 'Обновление не выполнено.' : 'Сессия не прошла валидацию попрчине отсутствия пользователя или истечениясрока действия.' });
 });
 // router.get('/:id', async (req, res, next) => {
 //   const item = await storageFuncs.getById(req.params.id);

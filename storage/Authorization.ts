@@ -35,13 +35,15 @@ function createSession(login: string) {
 
 async function getUser(userlogin: string): Promise<any> {
   const collection = await usersCollection;
+  const user = await collection.findOne({ login: userlogin });
+
   const {
     login,
     email,
     avatar,
     rightAnswers,
     wrongAnswers,
-  } = await collection.findOne({ login: userlogin });
+  } = user;
   return { login, email, avatar, rightAnswers, wrongAnswers };
 }
 
@@ -88,8 +90,8 @@ async function checkSession(token: string) {
   const session = await sessionsCollection;
   const userSession = await session.findOne({ token });
 
-  const result = {
-    user: '',
+  const result:{user: any, status: boolean} = {
+    user: null,
     status: false,
   };
 
@@ -148,20 +150,24 @@ async function updateUser(field: string, updateValue: any, token: string) {
   };
 
   const { status, user } = await checkSession(token);
-
+  // console.log(field, token);
+  // console.log(updateValue === user.avatar);
   if (!status) {
     return result;
   }
 
+  // console.log(status);
+  // console.log(user);
   result.autorized = status;
 
   const session = await usersCollection;
-  const res = await session.updateOne({ login: user }, { $set: { [field]: updateValue } });
+  const res = await session.updateOne({ login: user.login }, { $set: { [field]: updateValue } });
 
   result.updated = Boolean(res.modifiedCount);
-  result.status = result.updated && result.autorized;
+  //console.log(res.modifiedCount, res.matchedCount);
 
-  result.user = await getUser(user);
+  result.status = result.updated && result.autorized;
+  result.user = await getUser(user.login);
 
   return result;
 }

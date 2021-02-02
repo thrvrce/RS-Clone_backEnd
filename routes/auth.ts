@@ -25,7 +25,7 @@ router.put('/checkSession', async (req, res, next) => {
   const { status, user } = await checkSession(req.body.token);
   res
     .status(status ? 200 : 401)
-    .json(status ? { status, user } : { message: 'Сессия не прошла валидацию попрчине отсутствия пользователя или истечения срока действия.' });
+    .json(status ? { status, user } : { message: 'Сессия не прошла валидацию по прчине отсутствия пользователя или истечения срока действия.' });
 });
 
 router.put('/authorize', async (req, res, next) => {
@@ -42,7 +42,8 @@ router.delete('/logout', async (req, res, next) => {
     .json({ status });
 });
 
-router.put('/updateUser/', async (req, res, next) => {
+router.put('/updateUser', async (req, res, next) => {
+  //console.log(req.body);
   const {
     status,
     autorized,
@@ -53,7 +54,7 @@ router.put('/updateUser/', async (req, res, next) => {
   res
     // eslint-disable-next-line no-nested-ternary
     .status(status ? 200 : (autorized ? 500 : 401))
-    .json(status ? { status, autorized, updated, user } : { message: autorized ? 'Обновление не выполнено.' : 'Сессия не прошла валидацию попрчине отсутствия пользователя или истечениясрока действия.' });
+    .json(status ? { status, autorized, updated, user } : { message: autorized ? 'Обновление не выполнено.' : 'Сессия не прошла валидацию по прчине отсутствия пользователя или истечения срока действия.' });
 });
 // router.get('/:id', async (req, res, next) => {
 //   const item = await storageFuncs.getById(req.params.id);

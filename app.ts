@@ -1,7 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
 import cors from 'cors';
-import todoRouter from './routes/todos';
 import auth from './routes/auth';
 import topics from './routes/Topics';
 
@@ -12,7 +11,6 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/todos', todoRouter);
 app.use('/login', auth);
 app.use('/topics', topics);
 

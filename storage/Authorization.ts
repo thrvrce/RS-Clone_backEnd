@@ -19,8 +19,8 @@ function setSessionTime() {
 }
 
 async function checkCredeindials(collection: Collection, login: string, email: string) {
-  const isUsedLogin = await collection.countDocuments({ login }, { limit: 1 });
-  const isUsedEmail = await collection.countDocuments({ email }, { limit: 1 });
+  const isUsedLogin:number = await collection.countDocuments({ login }, { limit: 1 });
+  const isUsedEmail:number = await collection.countDocuments({ email }, { limit: 1 });
 
   return { isUsedLogin, isUsedEmail };
 }
@@ -150,21 +150,16 @@ async function updateUser(field: string, updateValue: any, token: string) {
   };
 
   const { status, user } = await checkSession(token);
-  // console.log(field, token);
-  // console.log(updateValue === user.avatar);
   if (!status) {
     return result;
   }
 
-  // console.log(status);
-  // console.log(user);
   result.autorized = status;
 
   const session = await usersCollection;
   const res = await session.updateOne({ login: user.login }, { $set: { [field]: updateValue } });
 
   result.updated = Boolean(res.modifiedCount);
-  //console.log(res.modifiedCount, res.matchedCount);
 
   result.status = result.updated && result.autorized;
   result.user = await getUser(user.login);

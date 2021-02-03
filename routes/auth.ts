@@ -3,16 +3,7 @@ import {
   register, checkSession, userLogin, logOut, updateUser,
 } from '../storage/Authorization';
 
-// import path from 'path'
-// const __dirname = path.resolve();
-
 const router = Router();
-
-// router.get('/', async (req, res, next) => {
-//   console.log(`req: ${req}`);
-//   res.json(req.body);
-// res.sendFile(path.resolve(__dirname, '../view', 'login.html'));
-// });
 
 router.post('/register', async (req, res, next) => {
   const { status, token, user } = await register(req.body);
@@ -25,7 +16,7 @@ router.put('/checkSession', async (req, res, next) => {
   const { status, user } = await checkSession(req.body.token);
   res
     .status(status ? 200 : 401)
-    .json(status ? { status, user } : { message: 'Сессия не прошла валидацию по прчине отсутствия пользователя или истечения срока действия.' });
+    .json(status ? { status, user } : { message: 'Сессия не прошла валидацию по прчине отсутствия пользователя или истечения срока ее действия.' });
 });
 
 router.put('/authorize', async (req, res, next) => {
@@ -43,7 +34,6 @@ router.delete('/logout', async (req, res, next) => {
 });
 
 router.put('/updateUser', async (req, res, next) => {
-  //console.log(req.body);
   const {
     status,
     autorized,
@@ -54,12 +44,7 @@ router.put('/updateUser', async (req, res, next) => {
   res
     // eslint-disable-next-line no-nested-ternary
     .status(status ? 200 : (autorized ? 500 : 401))
-    .json(status ? { status, autorized, updated, user } : { message: autorized ? 'Обновление не выполнено.' : 'Сессия не прошла валидацию по прчине отсутствия пользователя или истечения срока действия.' });
+    .json(status ? { status, autorized, updated, user } : { message: autorized ? 'Обновление не выполнено.' : 'Сессия не прошла валидацию по причине отсутствия пользователя или истечения срока действия.' });
 });
-// router.get('/:id', async (req, res, next) => {
-//   const item = await storageFuncs.getById(req.params.id);
-//   res
-//     .status(item ? 200 : 404)
-//     .json(item);
-// });
+
 export default router;

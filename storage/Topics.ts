@@ -30,7 +30,11 @@ async function getAllTopics() {
   const collection = await topicsCollection;
   const Topics: any[] = [];
   await collection.find().forEach((topic) => Topics.push(topic));
-  return Topics;
+  let status: boolean = true;
+  if (Topics.length === 0) {
+    status = false;
+  }
+  return { status, Topics };
 }
 
 async function deleteTopicByName(topicName: string) {

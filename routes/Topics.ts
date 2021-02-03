@@ -16,8 +16,10 @@ router.get('/gettopicbyname/:topicName', async (req, res, next) => {
 });
 
 router.get('/getalltopics', async (req, res, next) => {
-  const topics = await getAllTopics();
-  res.json(topics);
+  const { status, Topics } = await getAllTopics();
+  res
+    .status(status ? 200 : 204)
+    .json(Topics);
 });
 
 router.delete('/deletetopicbyname/:topicName', async (req, res, next) => {

@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-const URL: string = 'mongodb+srv://thrvrce:Pas$w0rD-RS-C10Ne@rs-clone-cluster.mrrjc.mongodb.net/?retryWrites=true&w=majority';
+const URL: string = 'mongodb+srv://thrvrce:<>@rs-clone-cluster.mrrjc.mongodb.net/?retryWrites=true&w=majority';
 const DBNAME: string = 'RsClone';
 const USERS = 'Users';
 const SESSIONS = 'Sessions';
